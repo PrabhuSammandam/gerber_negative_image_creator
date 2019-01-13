@@ -7,6 +7,8 @@ package org.jinjuamla.GerberNegativeCreator;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,6 +27,7 @@ public class CapturePane extends JPanel implements Consumer {
         public CapturePane() {
             setLayout(new BorderLayout());
             output = new JTextArea();
+            output.setFont(new Font("monospaced", Font.PLAIN, 12));
             add(new JScrollPane(output));
         }
         
