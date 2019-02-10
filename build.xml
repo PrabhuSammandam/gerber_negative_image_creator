@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <project basedir="." default="build" name="gerber_negative_image_creator">
+
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="8"/>
+    <property name="source" value="8"/>
+    <property name="appjarname" value="gnicreator"/>
+
+    <path id="gerber_negative_image_creator.classpath">
+        <pathelement location="bin"/>
+    </path>
+    <path id="run.GerberNegativeCreatorMainFrame.classpath">
+        <path refid="gerber_negative_image_creator.classpath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <mkdir dir="jar"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+        <delete dir="jar"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-project,appjar" name="build"/>
+    <target depends="build-project" name="appjar">
+      <jar destfile="jar/${appjarname}.jar"
+           basedir="bin">
+        <manifest>
+          <attribute name="Main-Class"
+                     value="org.jinjuamla.GerberNegativeCreator.GerberNegativeCreatorMainFrame"/>
+        </manifest>
+      </jar>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="gerber_negative_image_creator.classpath"/>
+        </javac>
+    </target>
+
+    <target depends="build-project,GerberNegativeCreatorMainFrame" name="run" />
+    <target name="GerberNegativeCreatorMainFrame">
+        <java classname="org.jinjuamla.GerberNegativeCreator.GerberNegativeCreatorMainFrame" failonerror="true" fork="yes">
+            <classpath refid="run.GerberNegativeCreatorMainFrame.classpath"/>
+        </java>
+    </target>
+</project>
